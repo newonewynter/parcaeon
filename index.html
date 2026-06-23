@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>파르크에온 · Parc Aeon</title>
+<meta name="description" content="파르크에온은 사람들이 직접 모이고 경험하는 오프라인 문화예술 콘텐츠를 기획하고 운영합니다." />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+<style>
+  :root{
+    --bg:#000000; --bg2:#0a0a0a; --line:rgba(180,255,235,.10);
+    --glass:rgba(180,255,235,.05); --glass-bd:rgba(180,255,235,.13);
+    --text:#e9fff8; --dim:#8fc7bb; --dim2:#5f8f85; --mint:#79e8c6;
+    --grad:linear-gradient(120deg,#9af0cf 0%,#4fd0c4 50%,#1597a8 100%);
+    --r:22px; --maxw:1180px;
+    --sans:-apple-system,BlinkMacSystemFont,"Pretendard Variable",Pretendard,"Apple SD Gothic Neo",system-ui,"Segoe UI",Roboto,sans-serif;
+    --ease:cubic-bezier(.16,1,.3,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);font-weight:400;line-height:1.7;letter-spacing:-.01em;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none} img{max-width:100%;display:block}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  section[id]{scroll-margin-top:84px}
+  .grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .pill{display:inline-flex;align-items:center;gap:8px;padding:7px 15px;border:1px solid var(--glass-bd);background:var(--glass);border-radius:100px;font-size:.74rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+  .pill .dotc{width:6px;height:6px;border-radius:50%;background:var(--grad)}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:100px;font-weight:600;font-size:.96rem;cursor:pointer;border:1px solid transparent;transition:transform .25s var(--ease),opacity .25s,background .25s}
+  .btn-grad{background:var(--grad);color:#06211d} .btn-ghost{background:transparent;border-color:var(--glass-bd);color:var(--text)}
+  .btn:hover{transform:translateY(-2px)} .btn-ghost:hover{background:var(--glass)}
+
+  #curtain{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;align-items:center;justify-content:center;transition:opacity .8s,visibility .8s}
+  #curtain .mk{font-size:1.5rem;font-weight:800;letter-spacing:.04em;opacity:0;transform:translateY(8px);transition:opacity .6s,transform .6s}
+  #curtain.show .mk{opacity:1;transform:none} body.loaded #curtain{opacity:0;visibility:hidden}
+
+  header{position:fixed;inset:0 0 auto 0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:18px 28px;transition:background .4s,padding .4s,border-color .4s;border-bottom:1px solid transparent}
+  header.scrolled{background:rgba(0,0,0,.6);backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);padding:12px 28px;border-bottom:1px solid var(--line)}
+  .brand{font-weight:800;font-size:1.16rem} .brand small{display:block;font-size:.6rem;font-weight:600;letter-spacing:.34em;color:var(--dim2);text-transform:uppercase;margin-top:1px}
+  nav{display:flex;align-items:center;gap:32px}
+  nav a{font-size:.88rem;font-weight:500;color:var(--dim)} nav a:hover{color:var(--text)}
+  nav .navcta{padding:8px 18px;border-radius:100px;background:var(--text);color:#000;font-weight:600} nav .navcta:hover{opacity:.85}
+  .menu-btn{display:none;background:none;border:0;color:var(--text);cursor:pointer;font-size:1.5rem;line-height:1;padding:4px 6px}
+
+  /* ===== scroll-zoom hero ===== */
+  .zoom{position:relative;height:300vh;background:#000}
+  .zoom-sticky{position:sticky;top:0;height:100svh;overflow:hidden}
+  .zoom-stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+  .zblob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.32}
+  .zblob.a{width:46vw;height:46vw;background:radial-gradient(circle,#1597a8,transparent 65%);top:-10vw;right:-8vw}
+  .zblob.b{width:40vw;height:40vw;background:radial-gradient(circle,#9af0cf,transparent 65%);bottom:-10vw;left:-8vw}
+  .z-hero{position:absolute;z-index:3;text-align:center;padding:0 24px;will-change:opacity,transform}
+  .z-hero .z-mark{font-size:clamp(2rem,6vw,3.4rem);font-weight:800;letter-spacing:-.02em;margin-top:18px}
+  .z-hero .z-latin{margin-top:8px;font-size:.74rem;font-weight:600;letter-spacing:.34em;text-transform:uppercase;color:var(--dim2)}
+  .z-cue{position:absolute;left:0;right:0;bottom:34px;z-index:3;text-align:center;font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--dim2);will-change:opacity}
+  .z-cue .ln{display:block;width:1px;height:34px;background:var(--mint);margin:10px auto 0;opacity:.6}
+  .z-circle{position:relative;z-index:2;width:52vmin;height:52vmin;border-radius:50%;overflow:hidden;will-change:transform;box-shadow:0 30px 90px rgba(0,0,0,.55)}
+  /* the "second image" inside the shape — swap this for a real photo later */
+  .z-img{position:absolute;inset:0;background:
+    radial-gradient(80% 70% at 30% 25%,rgba(255,255,255,.25),transparent 55%),
+    radial-gradient(90% 80% at 80% 80%,#0c607e,transparent 60%),
+    linear-gradient(140deg,#9af0cf,#2bb1ad 45%,#0d6f86)}
+  .z-reveal{position:absolute;z-index:4;text-align:center;padding:0 24px;opacity:0;pointer-events:none;color:#052b27;will-change:opacity,transform}
+  .z-reveal h1{font-size:clamp(2.2rem,6.5vw,4.6rem);font-weight:800;line-height:1.08;letter-spacing:-.03em;max-width:16ch;margin:0 auto}
+  .z-reveal h1 .em{color:#063b35}
+  .z-reveal p{margin:20px auto 28px;max-width:40ch;font-weight:500;color:#0a3b35}
+  .z-reveal .btn-grad{background:#052b27;color:#dffaf0}
+
+  .marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:18px 0;background:var(--bg2)}
+  .marquee .track{display:flex;gap:48px;white-space:nowrap;width:max-content;animation:scrollx 26s linear infinite}
+  .marquee span{font-size:1.05rem;font-weight:600;color:var(--dim2)} .marquee span b{color:var(--text);font-weight:700} .marquee .star{color:var(--mint)}
+  @keyframes scrollx{to{transform:translateX(-50%)}}
+
+  section.block{padding:120px 0;position:relative}
+  .sec-head{margin-bottom:56px;max-width:60ch}
+  .sec-head h2{font-size:clamp(1.9rem,4.2vw,3rem);font-weight:800;line-height:1.12;letter-spacing:-.025em;margin-top:18px}
+  .sec-head p{margin-top:18px;color:var(--dim);font-size:1.05rem}
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity 1s ease,transform 1s var(--ease)} .reveal.in{opacity:1;transform:none}
+
+  .statement{padding:120px 0;text-align:center;border-top:1px solid var(--line)}
+  .statement p{font-size:clamp(1.35rem,3.2vw,2.3rem);font-weight:700;line-height:1.55;letter-spacing:-.02em;max-width:none;margin:0 auto}
+  .statement .muted{color:var(--dim2)}
+
+  .feat{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .fcard{background:var(--glass);border:1px solid var(--glass-bd);border-radius:var(--r);padding:34px 30px;transition:transform .5s var(--ease),background .4s;backdrop-filter:blur(8px)}
+  .fcard:hover{transform:translateY(-6px);background:rgba(180,255,235,.08)}
+  .fcard .ic{width:54px;height:54px;color:var(--mint)} .fcard .ic svg{width:100%;height:100%;display:block}
+  .fcard h3{font-size:1.3rem;font-weight:700;margin:22px 0 10px;letter-spacing:-.02em} .fcard p{color:var(--dim);font-size:.98rem}
+
+  /* ===== EXPLORE row — straight line, hover to raise, no clipping ===== */
+  .explore{background:#e6f7f3;color:#0c3b39;padding:94px 0 70px;text-align:center}
+  .explore .eb{font-size:.82rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:#0c3b39} .explore .eb b{font-weight:800}
+  .explore h2{font-size:clamp(2.2rem,5.2vw,3.4rem);font-weight:800;letter-spacing:-.02em;margin:6px 0 4px}
+  .explore .sub{font-size:clamp(1.15rem,2.6vw,1.55rem);font-weight:500;color:#2f6b62}
+  .rowwrap{margin-top:30px;padding:50px 28px 8px;overflow-x:auto;cursor:grab;scrollbar-width:none;-ms-overflow-style:none}
+  .rowwrap.dragging{cursor:grabbing}
+  .rowwrap::-webkit-scrollbar{display:none}
+  .cardrow{display:flex;align-items:flex-end;gap:16px;width:max-content;margin:0 auto;padding:0 4px}
+  .ecard{position:relative;flex:0 0 auto;width:clamp(240px,30vw,320px);height:clamp(200px,26vh,250px);border-radius:18px;cursor:pointer;overflow:hidden;user-select:none;transition:transform .4s var(--ease),box-shadow .4s,filter .3s;box-shadow:0 16px 34px rgba(8,40,36,.18)}
+  .ecard .cat2{position:absolute;top:22px;left:24px;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;font-weight:800;opacity:.75}
+  .ecard .lab{position:absolute;left:24px;right:24px;bottom:46px;font-weight:800;font-size:clamp(1.2rem,1.6vw,1.5rem);line-height:1.15;letter-spacing:-.02em}
+  .ecard .more{position:absolute;left:24px;bottom:20px;font-size:.78rem;font-weight:700;opacity:.7;transition:opacity .3s,letter-spacing .3s}
+  .ecard:hover{transform:translateY(-8px);box-shadow:0 30px 56px rgba(8,40,36,.3);filter:brightness(1.04)}
+  .ecard:hover .more{opacity:1;letter-spacing:.04em}
+  .ecard>*{position:relative;z-index:1}
+  .ecard.has-img::after{content:"";position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,rgba(0,0,0,.12),rgba(0,0,0,.58))}
+  .modal{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s}
+  .modal.open{opacity:1;visibility:visible}
+  .modal-card{background:#0d0d12;border:1px solid var(--glass-bd);border-radius:24px;max-width:860px;width:100%;max-height:88vh;overflow:auto;padding:30px 30px 34px;transform:translateY(16px);transition:transform .4s var(--ease)}
+  .modal.open .modal-card{transform:none}
+  .modal-x{float:right;background:none;border:0;color:var(--text);font-size:1.7rem;cursor:pointer;line-height:1;margin:-6px -6px 0 0}
+  .modal .m-cat{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;font-weight:800;color:var(--mint)}
+  .modal .m-title{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;letter-spacing:-.02em;margin:8px 0 20px}
+  .modal .m-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+  .modal .m-gallery div{aspect-ratio:4/3;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:.74rem;font-weight:700;color:rgba(6,33,29,.7)}
+  .modal .m-desc{color:var(--dim);line-height:1.85}
+  .toggle-wrap{margin-top:40px;display:flex;flex-direction:column;align-items:center;gap:12px}
+  .toggle{width:66px;height:32px;border-radius:100px;background:#0c3b39;border:0;position:relative;cursor:pointer;padding:0}
+  .toggle .knob{position:absolute;top:4px;left:4px;width:24px;height:24px;border-radius:50%;background:#cdeff0;transition:left .3s var(--ease)}
+  .toggle.on .knob{left:38px}
+  .tlabel{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:#0c3b39}
+
+  .cta-band{background:linear-gradient(120deg,#9af0cf,#3fd0c4 50%,#1597a8);color:#06211d;text-align:center;padding:96px 28px}
+  .cta-band h2{font-size:clamp(1.1rem,3.6vw,2.6rem);font-weight:800;letter-spacing:-.025em;line-height:1.2;max-width:none;margin:0 auto;white-space:nowrap}
+  .cta-band p{color:rgba(6,33,29,.78);margin-top:16px;font-weight:600;font-size:1.05rem}
+
+  .news{border-top:1px solid var(--line)}
+  .news-row{display:grid;grid-template-columns:120px 1fr auto;gap:24px;align-items:baseline;padding:26px 6px;border-bottom:1px solid var(--line);transition:padding-left .4s var(--ease),background .4s,border-radius .4s}
+  .news-row:hover{padding-left:20px;background:linear-gradient(90deg,rgba(121,232,198,.10),transparent);border-radius:14px}
+  .news-row .date{font-size:.84rem;color:var(--dim2)} .news-row .head{font-size:1.2rem;font-weight:700;letter-spacing:-.02em;line-height:1.4} .news-row .src{font-size:.8rem;color:var(--mint);font-weight:600;white-space:nowrap}
+
+  .contact-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:56px;align-items:start}
+  .info-card{background:var(--glass);border:1px solid var(--glass-bd);border-radius:var(--r);padding:8px 28px;backdrop-filter:blur(8px)}
+  .info-row{padding:20px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:16px} .info-row:last-child{border-bottom:0}
+  .info-row .lab{color:var(--dim);font-size:.86rem} .info-row .val{font-weight:500}
+  form{display:flex;flex-direction:column;gap:16px}
+  label{font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin-bottom:8px;display:block;font-weight:600}
+  input,textarea{width:100%;background:var(--bg2);border:1px solid var(--glass-bd);color:var(--text);font-family:var(--sans);font-size:.98rem;padding:14px 16px;border-radius:14px;transition:border-color .25s}
+  input:focus,textarea:focus{outline:none;border-color:var(--mint)} textarea{resize:vertical;min-height:120px}
+
+  footer{border-top:1px solid var(--line);padding:64px 0 72px;color:var(--dim)}
+  .foot-top{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap}
+  .foot-brand{font-size:1.5rem;font-weight:800;color:var(--text)} .foot-links{display:flex;gap:22px;font-size:.88rem} .foot-links a:hover{color:var(--text)}
+  .legal{margin-top:40px;font-size:.8rem;line-height:1.9;border-top:1px solid var(--line);padding-top:24px;color:var(--dim2)}
+
+  @media(max-width:880px){
+    nav{position:fixed;top:0;right:0;height:100svh;width:min(76vw,320px);background:rgba(0,0,0,.96);backdrop-filter:blur(20px);flex-direction:column;align-items:flex-start;justify-content:center;padding:0 36px;gap:24px;transform:translateX(100%);transition:transform .5s var(--ease);border-left:1px solid var(--line);z-index:40}
+    nav.open{transform:none} nav a{font-size:1.3rem;font-weight:600} nav .navcta{font-size:1rem}
+    .menu-btn{display:block;z-index:60}
+    .feat{grid-template-columns:1fr 1fr;gap:14px} .contact-grid{grid-template-columns:1fr;gap:36px}
+    section.block{padding:88px 0} .news-row{grid-template-columns:1fr;gap:6px} .news-row .src{order:-1}
+    .rowwrap{justify-content:flex-start}
+    .cardrow{justify-content:flex-start}
+    .ecard{width:clamp(220px,80vw,290px);height:clamp(180px,30vh,215px)}
+    .modal .m-gallery{grid-template-columns:1fr 1fr}
+  }
+  @media(max-width:560px){.feat{grid-template-columns:1fr}.wrap{padding:0 20px}.panel{border-radius:24px;padding:54px 26px}}
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition-duration:.001s!important}
+    .reveal{opacity:1;transform:none}.marquee .track{animation:none}html{scroll-behavior:auto}
+    .zoom{height:100svh}.z-circle{transform:scale(1.4)}.z-reveal{display:none}
+  }
+</style>
+</head>
+<body>
+
+<div id="curtain"><div class="mk grad-text">파르크에온</div></div>
+
+<header id="hdr">
+  <a class="brand" href="#top">파르크에온<small>Parc Aeon</small></a>
+  <button class="menu-btn" id="menuBtn" aria-label="메뉴">≡</button>
+  <nav id="nav"><a href="#about">소개</a><a href="#work">활동</a><a href="#news">소식</a><a class="navcta" href="#contact">문의하기</a></nav>
+</header>
+
+<!-- scroll-zoom hero -->
+<section class="zoom" id="top">
+  <div class="zoom-sticky">
+    <div class="zoom-stage">
+      <div class="zblob a"></div><div class="zblob b"></div>
+      <div class="z-hero" id="zhero">
+        <div class="z-mark">파르크에온</div>
+        <div class="z-latin">Parc Aeon</div>
+      </div>
+      <div class="z-circle" id="zcircle"><div class="z-img"></div></div>
+      <div class="z-reveal" id="zreveal">
+        <h1>화면 너머가 아니라,<br><span class="em">같은 자리</span>에서.</h1>
+        <p>사람들이 직접 모이고 경험하는 오프라인 문화예술 콘텐츠.</p>
+      </div>
+      <div class="z-cue" id="zcue">스크롤<span class="ln"></span></div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee"><div class="track">
+  <span><b>전시</b><span class="star"> ✦ </span><b>공연</b><span class="star"> ✦ </span><b>워크숍</b><span class="star"> ✦ </span><b>모임</b><span class="star"> ✦ </span><b>로컬 프로젝트</b><span class="star"> ✦ </span></span>
+  <span><b>전시</b><span class="star"> ✦ </span><b>공연</b><span class="star"> ✦ </span><b>워크숍</b><span class="star"> ✦ </span><b>모임</b><span class="star"> ✦ </span><b>로컬 프로젝트</b><span class="star"> ✦ </span></span>
+</div></div>
+
+<section class="statement"><div class="wrap reveal">
+  <p>콘텐츠가 <span class="grad-text">손에 잡히는 시간과 공간</span>이 될 때,<br><span class="muted">가장 오래 남는다고 믿습니다.</span></p>
+</div></section>
+
+<section class="block" id="about"><div class="wrap">
+  <div class="sec-head reveal"><h2>시간이 머무는 공원처럼,<br>파르크에온이 하는 일</h2>
+    <p>파르크에온(Parc Aeon)은 사람들이 잠시 멈춰 문화예술을 경험하는 오프라인의 자리를 기획에서 운영, 기록까지 한 흐름으로 만듭니다.</p></div>
+  <div class="feat">
+    <div class="fcard reveal"><div class="ic"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M24 5C26.5 17 31 21.5 43 24C31 26.5 26.5 31 24 43C21.5 31 17 26.5 5 24C17 21.5 21.5 17 24 5Z"/></svg></div><h3>기획</h3><p>경험의 결을 처음부터 설계합니다. 무엇을, 어떤 분위기로, 누구와 만날지.</p></div>
+    <div class="fcard reveal"><div class="ic"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M24 6V42"/><path d="M6 24H42"/><path d="M11.5 11.5L36.5 36.5"/><path d="M36.5 11.5L11.5 36.5"/></svg></div><h3>운영</h3><p>현장에서 사람과 시간을 잇습니다. 준비부터 마무리까지 자리를 지킵니다.</p></div>
+    <div class="fcard reveal"><div class="ic"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 30C13 16 18 34 24 24C29 15 33 27 41 18"/><path d="M40 32l1.5-4 4-1.5-4-1.5L40 21l-1.5 4-4 1.5 4 1.5z"/></svg></div><h3>기록</h3><p>지나간 자리를 남깁니다. 사진과 글로 경험을 다음으로 이어 갑니다.</p></div>
+    <div class="fcard reveal"><div class="ic"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M24 39C11 30 9 19 16 15C20.5 12.5 24 16.5 24 18.5C24 16.5 27.5 12.5 32 15C39 19 37 30 24 39Z"/></svg></div><h3>나눔</h3><p>기록한 경험을 더 많은 사람과 나눕니다. 한 번의 자리가 다음으로 이어지도록.</p></div>
+  </div>
+</div></section>
+
+<section class="explore" id="work">
+  <p class="eb"><b>둘러보기</b> 우리의 활동</p>
+  <h2>모든 자리들</h2>
+  <p class="sub">카드에 마우스를 올려 보세요</p>
+  <div class="rowwrap">
+    <div class="cardrow" id="cardrow"></div>
+  </div>
+  <div class="toggle-wrap"><button class="toggle on" id="toggle" aria-label="보기 전환"><span class="knob"></span></button><div class="tlabel" id="tlabel">전체 활동 보기</div></div>
+</section>
+
+<section class="cta-band">
+  <h2>같은 시간, 같은 자리에서 만드는 경험</h2>
+  <p>협업·대관·취재 어떤 이야기든 환영합니다.</p>
+</section>
+
+<section class="block" id="news"><div class="wrap">
+  <div class="sec-head reveal"><span class="pill">소식 · News</span><h2>기사와 새소식</h2>
+    <p>언론 보도와 파르크에온의 소식입니다. (예시이며 실제 기사로 교체할 수 있어요.)</p></div>
+  <div class="news">
+    <a class="news-row reveal" href="#"><span class="date">2026.05.</span><span class="head">파르크에온, 봄 기획전 성료… 관람객 호평</span><span class="src">○○일보</span></a>
+    <a class="news-row reveal" href="#"><span class="date">2026.03.</span><span class="head">오프라인 문화 콘텐츠의 가능성을 말하다</span><span class="src">○○매거진</span></a>
+    <a class="news-row reveal" href="#"><span class="date">2025.11.</span><span class="head">지역과 예술을 잇는 새로운 시도</span><span class="src">○○뉴스</span></a>
+    <a class="news-row reveal" href="#"><span class="date">2025.08.</span><span class="head">‘잠시 멈춤’ 모임, 누적 참가자 ○○○명 돌파</span><span class="src">보도자료</span></a>
+  </div>
+</div></section>
+
+<section class="block" id="contact"><div class="wrap">
+  <div class="sec-head reveal"><span class="pill">문의</span><h2>함께 만들고 싶다면</h2><p>협업·대관·취재 등 어떤 이야기든 편하게 남겨 주세요.</p></div>
+  <div class="contact-grid">
+    <div class="info-card reveal">
+      <div class="info-row"><span class="lab">이메일</span><span class="val">hello@parcaeon.co.kr</span></div>
+      <div class="info-row"><span class="lab">인스타그램</span><span class="val">@parcaeon</span></div>
+      <div class="info-row"><span class="lab">위치</span><span class="val">대구광역시 중구 (주소)</span></div>
+      <div class="info-row"><span class="lab">전화</span><span class="val">000-0000-0000</span></div>
+    </div>
+    <form class="reveal" id="inquiry">
+      <div><label for="name">이름 / 단체</label><input id="name" type="text" placeholder="성함 또는 단체명" required /></div>
+      <div><label for="contact">연락처 또는 이메일</label><input id="contact" type="text" placeholder="답신 받을 곳" required /></div>
+      <div><label for="msg">문의 내용</label><textarea id="msg" placeholder="어떤 이야기든 편하게 적어 주세요" required></textarea></div>
+      <button class="btn btn-grad" type="submit">문의 보내기</button>
+    </form>
+  </div>
+</div></section>
+
+<div class="modal" id="modal"><div class="modal-card">
+  <button class="modal-x" id="modalX" aria-label="닫기">×</button>
+  <div class="m-cat" id="mCat"></div>
+  <h3 class="m-title" id="mTitle"></h3>
+  <div class="m-gallery" id="mGallery"></div>
+  <p class="m-desc" id="mDesc"></p>
+</div></div>
+
+<footer><div class="wrap">
+  <div class="foot-top"><div class="foot-brand">파르크에온</div>
+    <div class="foot-links"><a href="#about">소개</a><a href="#work">활동</a><a href="#news">소식</a><a href="#contact">문의</a></div></div>
+  <div class="legal">파르크에온은 (회사명) 의 오프라인 문화예술 콘텐츠 브랜드입니다.<br>대표자 000 · 사업자등록번호 000-00-00000 · 대구광역시 중구 (주소) · © 2026 Parc Aeon</div>
+</div></footer>
+
+<script>
+  var curtain=document.getElementById('curtain');
+  requestAnimationFrame(function(){curtain.classList.add('show');});
+  window.addEventListener('load',function(){setTimeout(function(){document.body.classList.add('loaded');},600);});
+  setTimeout(function(){document.body.classList.add('loaded');},1500);
+
+  var hdr=document.getElementById('hdr');
+  var nav=document.getElementById('nav'),menuBtn=document.getElementById('menuBtn');
+  menuBtn.addEventListener('click',function(){nav.classList.toggle('open');menuBtn.textContent=nav.classList.contains('open')?'×':'≡';});
+  nav.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){nav.classList.remove('open');menuBtn.textContent='≡';});});
+
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.14});
+  document.querySelectorAll('.reveal').forEach(function(el,i){el.style.transitionDelay=((i%3)*0.08)+'s';io.observe(el);});
+
+  // scroll-zoom hero
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var zoom=document.getElementById('top'),zc=document.getElementById('zcircle'),zh=document.getElementById('zhero'),zr=document.getElementById('zreveal'),zcue=document.getElementById('zcue');
+  function clamp(v,a,b){return Math.min(Math.max(v,a),b);}
+  var ticking=false;
+  function update(){
+    var y=window.scrollY;
+    y>40?hdr.classList.add('scrolled'):hdr.classList.remove('scrolled');
+    if(!reduce){
+      var rect=zoom.getBoundingClientRect();
+      var total=zoom.offsetHeight-window.innerHeight;
+      var p=clamp((-rect.top)/total,0,1);
+      zc.style.transform='scale('+(1+p*7.5)+')';
+      var hop=clamp(1-p*2.1,0,1);
+      zh.style.opacity=hop; zcue.style.opacity=hop;
+      zh.style.transform='translateY('+(-p*30)+'px)';
+      var rop=clamp((p-0.62)/0.3,0,1);
+      zr.style.opacity=rop; zr.style.transform='translateY('+((1-rop)*16)+'px)';
+      zr.style.pointerEvents=rop>0.9?'auto':'none';
+    }
+    ticking=false;
+  }
+  function onScroll(){if(ticking)return;ticking=true;requestAnimationFrame(update);}
+  window.addEventListener('scroll',onScroll,{passive:true});
+  window.addEventListener('resize',update); update();
+
+  // ===== activities: rendered from editable data (content/activities.json) =====
+  var DEFAULT_ACTIVITIES=[
+    {cat:"전시",title:"○○ 기획전",color:"#9af0cf",images:[],desc:"대구에서 진행한 첫 기획전입니다. 공간 전체를 하나의 작품처럼 구성해 관람객이 천천히 머무르도록 설계했어요."},
+    {cat:"공연",title:"밤의 라운지",color:"#6fe6cf",images:[],desc:"음악과 공간이 어우러진 야간 공연 시리즈입니다. 작은 무대를 가까이에서 경험하도록 기획했어요."},
+    {cat:"워크숍",title:"손으로 만드는 시간",color:"#3fd2c0",images:[],desc:"참여자가 직접 손으로 무언가를 만들어 보는 정기 워크숍입니다. 결과물보다 과정에 집중했어요."},
+    {cat:"커뮤니티",title:"모임 ‘잠시 멈춤’",color:"#14a6a6",images:[],desc:"바쁜 일상에서 잠시 멈춰 서로의 이야기를 나누는 월간 모임입니다."},
+    {cat:"기획",title:"로컬 문화 프로젝트",color:"#118f98",images:[],desc:"지역의 공간·사람과 연계해 진행한 문화 프로젝트입니다."},
+    {cat:"전시",title:"사진과 공간 展",color:"#0d7886",images:[],desc:"여러 작가가 함께한 단체 사진전입니다. 공간과 이미지의 관계를 탐구했어요."},
+    {cat:"협업",title:"브랜드 콜라보",color:"#0a5f72",images:[],desc:"브랜드와 함께 기획한 오프라인 콜라보 프로젝트입니다."}
+  ];
+  var activities=DEFAULT_ACTIVITIES, modal=document.getElementById('modal'), row=document.getElementById('cardrow');
+  function isLight(hex){try{var h=hex.replace('#','');var r=parseInt(h.substr(0,2),16),g=parseInt(h.substr(2,2),16),b=parseInt(h.substr(4,2),16);return (0.299*r+0.587*g+0.114*b)>150;}catch(e){return true;}}
+  function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function renderCards(){
+    row.innerHTML='';
+    activities.forEach(function(a,idx){
+      var el=document.createElement('article');
+      el.className='ecard'+((a.images&&a.images.length)?' has-img':'');
+      if(a.images&&a.images.length){el.style.cssText="background-image:url('"+a.images[0]+"');background-size:cover;background-position:center;color:#fff";}
+      else{el.style.cssText="background:"+(a.color||'#14a6a6')+";color:"+(isLight(a.color)?'#06302b':'#eafff8');}
+      el.innerHTML='<span class="cat2">'+esc(a.cat)+'</span><div class="lab">'+esc(a.title)+'</div><span class="more">자세히 보기 →</span>';
+      el.addEventListener('click',function(){if(moved)return;openModal(idx);});
+      row.appendChild(el);
+    });
+  }
+  function openModal(i){
+    var a=activities[i];
+    document.getElementById('mCat').textContent=a.cat||'';
+    document.getElementById('mTitle').textContent=a.title||'';
+    document.getElementById('mDesc').textContent=a.desc||'';
+    var g=document.getElementById('mGallery');g.innerHTML='';
+    if(a.images&&a.images.length){
+      a.images.forEach(function(src){var d=document.createElement('div');d.style.cssText="background-image:url('"+src+"');background-size:cover;background-position:center";g.appendChild(d);});
+    }else{
+      var col=a.color||'#14a6a6';
+      for(var k=1;k<=3;k++){var d=document.createElement('div');d.style.background=col;d.style.opacity=(1-(k-1)*0.16);d.textContent='사진 '+k;g.appendChild(d);}
+    }
+    modal.classList.add('open');document.body.style.overflow='hidden';
+  }
+  function closeModal(){modal.classList.remove('open');document.body.style.overflow='';}
+
+  var tg=document.getElementById('toggle'),tl=document.getElementById('tlabel');
+  tg.addEventListener('click',function(){tg.classList.toggle('on');tl.textContent=tg.classList.contains('on')?'전체 활동 보기':'주요 활동만';});
+
+  // drag-to-scroll
+  var rw=document.querySelector('.rowwrap');
+  var down=false,startX=0,startL=0,moved=false;
+  if(rw){
+    rw.addEventListener('pointerdown',function(e){down=true;moved=false;startX=e.clientX;startL=rw.scrollLeft;rw.classList.add('dragging');});
+    window.addEventListener('pointermove',function(e){if(!down)return;var dx=e.clientX-startX;if(Math.abs(dx)>5)moved=true;rw.scrollLeft=startL-dx;});
+    window.addEventListener('pointerup',function(){down=false;rw.classList.remove('dragging');});
+  }
+  document.getElementById('modalX').addEventListener('click',closeModal);
+  modal.addEventListener('click',function(e){if(e.target===modal)closeModal();});
+  window.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
+
+  // load editable content if present, else use defaults
+  renderCards();
+  fetch('content/activities.json').then(function(r){return r.json();}).then(function(d){
+    if(d&&Array.isArray(d.activities)&&d.activities.length){activities=d.activities;renderCards();}
+  }).catch(function(){});
+
+  document.getElementById('inquiry').addEventListener('submit',function(ev){
+    ev.preventDefault();
+    var n=document.getElementById('name').value,c=document.getElementById('contact').value,m=document.getElementById('msg').value;
+    var body='이름/단체: '+n+'\r\n연락처: '+c+'\r\n\r\n'+m;
+    window.location.href='mailto:hello@parcaeon.co.kr?subject='+encodeURIComponent('[파르크에온] 문의')+'&body='+encodeURIComponent(body);
+  });
+</script>
+</body>
+</html>
