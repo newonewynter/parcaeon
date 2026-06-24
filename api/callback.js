@@ -2,11 +2,10 @@
 export default async function handler(req, res) {
   try {
     let code = req.query && req.query.code;
-    if (!code) {
-      code = new URL(req.url, "http://x").searchParams.get("code");
-    }
-    const clientId = process.env.GITHUB_CLIENT_ID;
-    const clientSecret = process.env.GITHUB_CLIENT_SECRET;
+    if (!code) code = new URL(req.url, "http://x").searchParams.get("code");
+
+    const clientId = (process.env.GITHUB_CLIENT_ID || "Ov23likypO2NCK5U1Mvq").trim();
+    const clientSecret = (process.env.GITHUB_CLIENT_SECRET || "").trim();
 
     const tokenRes = await fetch("https://github.com/login/oauth/access_token", {
       method: "POST",
