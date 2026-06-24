@@ -3,6 +3,8 @@ backend:
   name: github
   repo: newonewynter/parcaeon
   branch: main
+  base_url: https://www.parcaeon.com
+  auth_endpoint: api/auth
 
 # 업로드한 사진이 저장되는 폴더
 media_folder: "images"
