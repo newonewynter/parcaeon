@@ -1,0 +1,37 @@
+# ▶ 여기 한 줄만 본인 것으로 바꾸세요: GitHub 사용자명/저장소이름
+backend:
+  name: github
+  repo: newonewynter/parcaeon
+  branch: main
+  base_url: https://www.parcaeon.com
+  auth_endpoint: api/auth
+
+# 업로드한 사진이 저장되는 폴더
+media_folder: "images"
+public_folder: "images"
+
+# 관리자에서 편집할 항목들
+collections:
+  - name: "site"
+    label: "홈페이지 내용"
+    files:
+      - name: "activities"
+        label: "활동 카드"
+        file: "content/activities.json"
+        format: "json"
+        fields:
+          - name: "activities"
+            label: "활동 목록"
+            label_singular: "활동"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - { name: "cat", label: "분류 (예: 전시, 공연)", widget: "string" }
+              - { name: "title", label: "제목", widget: "string" }
+              - { name: "desc", label: "설명", widget: "text" }
+              - { name: "color", label: "카드 색 (사진 없을 때)", widget: "string", default: "#14a6a6", required: false }
+              - name: "images"
+                label: "사진 (드래그해서 올리기)"
+                widget: "list"
+                required: false
+                field: { name: "image", label: "사진", widget: "image" }
